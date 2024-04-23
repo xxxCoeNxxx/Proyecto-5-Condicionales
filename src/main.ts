@@ -5,7 +5,7 @@ const puntosElement: HTMLElement | null = document.getElementById("puntucionJuga
 const botonDameCarta: HTMLElement | null = document.getElementById("dameCarta");
 const cartaElement: HTMLElement | null = document.getElementById("mensaje");
 const imgAbajo: HTMLElement | null = document.getElementById("imgAbajo");
-const imgArriba: HTMLElement | null = document.getElementById("imgArriba");
+const imgCarta = document.getElementById("imgCarta") as HTMLImageElement;
 
 const as = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
 const dos = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
@@ -17,6 +17,8 @@ const siete = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/c
 const sota = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
 const caballo = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
 const rey = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
+const abajo = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
+let nuevaURL = abajo;
 
 const muestraPuntuacion = () => {
     if (puntosElement) {
@@ -43,46 +45,66 @@ function cartaNueva (numero: number): void {
         case 1:
             cartaNombre = " as"
             puntos++;
-        break;
+            nuevaURL = as;
+            imgCarta.src = nuevaURL;
+            break;
         case 2:
             cartaNombre = " dos"
             puntos += 2;
-        break;
+            nuevaURL = dos;
+            imgCarta.src = nuevaURL;
+            break;
         case 3:
             cartaNombre =  " tres"
             puntos += 3;
-        break; 
+            nuevaURL = tres;
+            imgCarta.src = nuevaURL;
+            break; 
         case 4:
             cartaNombre = " cuatro"
             puntos += 4;
-        break;
+            nuevaURL = cuatro;
+            imgCarta.src = nuevaURL;
+            break;
         case 5:
             cartaNombre = " cinco"
             puntos += 5;
-        break;
+            nuevaURL = cinco;
+            imgCarta.src = nuevaURL;
+            break;
         case 6:
             cartaNombre = " seis"
             puntos += 6;
-        break;
+            nuevaURL = seis;
+            imgCarta.src = nuevaURL;
+            break;
         case 7:
             cartaNombre = " siete"
             puntos += 7;
-        break;
+            nuevaURL = siete;
+            imgCarta.src = nuevaURL;
+            break;
         case 10:
             cartaNombre =  "a sota"
             puntos += 0.5;
-        break;
+            nuevaURL = sota;
+            imgCarta.src = nuevaURL;
+            break;
         case 11:
             cartaNombre =  " caballo"
             puntos += 0.5;
-        break;
+            nuevaURL = caballo;
+            imgCarta.src = nuevaURL;
+            break;
         case 12:
             cartaNombre = " rey"
             puntos += 0.5;
-        break;
+            nuevaURL = rey;
+            imgCarta.src = nuevaURL;
+            break;
         default:
             console.error("Ha habido un error, prueba otra vez")
-        break;
+            break;
     }
     let mensaje: string = `Has sacado un${cartaNombre}`;
     if (cartaElement) {
