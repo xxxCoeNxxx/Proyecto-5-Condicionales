@@ -1,3 +1,4 @@
+//Inicializar variables y definir constantes
 const puntosMax: number = 7.5;
 const puntosCero: number = 0;
 const numeroCartaCero: number = 0;
@@ -6,6 +7,7 @@ let puntos: number = 0;
 let numeroCarta: number = 0;
 let mejorPuntuacion: number = 0;
 let juegoTerminado: boolean = false;
+let cartaNombre = "";
 
 //Botones y mensajes
 const puntosElement: HTMLElement | null = document.getElementById("puntucionJugador");
@@ -139,82 +141,137 @@ const nuevoNumeroAleatorio = (): number => {
     }
 };
 
-//LLama a funciones según el número proporcionado por "numero"
-function cartaNueva (numero: number): void {
-    let cartaNombre: string = ``;
-    switch(numero) {
-        case 1:
-            cartaNombre = " as"
-            puntos++;
-            nuevaURL = as;
-            imgCarta.src = nuevaURL;
+//Funciones independientes para el switch principal
+const cambiarURL = () => {
+    imgCarta.src = nuevaURL;
+}
+
+const cambiarPuntos = (sumando: number) => {
+    puntos = (puntos + sumando)
+}
+
+const cambiarNuevaURL = (nombreParaURL: string) => {
+    nuevaURL = nombreParaURL
+}
+
+const cambiarCartaNombre = (nombreEnString: string) => {
+    cartaNombre = nombreEnString
+}
+
+//Switch para reducir contador de cada carta
+const cambiarContador = (nombreCont: string) => {
+    switch(nombreCont) {
+        case "contAs":
             contAs--;
             break;
-        case 2:
-            cartaNombre = " dos"
-            puntos += 2;
-            nuevaURL = dos;
-            imgCarta.src = nuevaURL;
+        case "contDos":
             contDos--;
             break;
-        case 3:
-            cartaNombre =  " tres"
-            puntos += 3;
-            nuevaURL = tres;
-            imgCarta.src = nuevaURL;
+        case "contTres":
             contTres--;
-            break; 
-        case 4:
-            cartaNombre = " cuatro"
-            puntos += 4;
-            nuevaURL = cuatro;
-            imgCarta.src = nuevaURL;
+            break;
+        case "contCuatro":
             contCuatro--;
             break;
-        case 5:
-            cartaNombre = " cinco"
-            puntos += 5;
-            nuevaURL = cinco;
-            imgCarta.src = nuevaURL;
+        case "contCinco":
             contCinco--;
             break;
-        case 6:
-            cartaNombre = " seis"
-            puntos += 6;
-            nuevaURL = seis;
-            imgCarta.src = nuevaURL;
+        case "contSeis":
             contSeis--;
             break;
-        case 7:
-            cartaNombre = " siete"
-            puntos += 7;
-            nuevaURL = siete;
-            imgCarta.src = nuevaURL;
+        case "contSiete":
             contSiete--;
             break;
-        case 10:
-            cartaNombre =  "a sota"
-            puntos += 0.5;
-            nuevaURL = sota;
-            imgCarta.src = nuevaURL;
+        case "contSota":
             contSota--;
             break;
-        case 11:
-            cartaNombre =  " caballo"
-            puntos += 0.5;
-            nuevaURL = caballo;
-            imgCarta.src = nuevaURL;
+        case "contCaballo":
             contCaballo--;
             break;
-        case 12:
-            cartaNombre = " rey"
-            puntos += 0.5;
-            nuevaURL = rey;
-            imgCarta.src = nuevaURL;
+        case "contRey":
             contRey--;
             break;
         default:
-            console.error("Ha habido un error, prueba otra vez")
+            console.error("Ha habido un error, por favor, reinicia la página");
+            break;
+    }
+};
+
+//LLama a funciones según el número proporcionado por "numero"
+function cartaNueva (numero: number): void {
+    switch(numero) {
+        case 1:
+            cambiarCartaNombre(" as");
+            cambiarPuntos(1);
+            cambiarNuevaURL(as);
+            cambiarURL();
+            cambiarContador("contAs");
+            break;
+        case 2:
+            cambiarCartaNombre(" dos");
+            cambiarPuntos(2);
+            cambiarNuevaURL(dos);
+            cambiarURL();
+            cambiarContador("contDos");
+            break;
+        case 3:
+            cambiarCartaNombre(" tres");
+            cambiarPuntos(3);
+            cambiarNuevaURL(tres);
+            cambiarURL();
+            cambiarContador("contTres");
+            break; 
+        case 4:
+            cambiarCartaNombre(" cuatro");
+            cambiarPuntos(4);
+            cambiarNuevaURL(cuatro);
+            cambiarURL();
+            cambiarContador("contCuatro");
+            break;
+        case 5:
+            cambiarCartaNombre(" cinco");
+            cambiarPuntos(5);
+            cambiarNuevaURL(cinco);
+            cambiarURL();
+            cambiarContador("contCinco");
+            break
+        case 6:
+            cambiarCartaNombre(" seis");
+            cambiarPuntos(6);
+            cambiarNuevaURL(seis);
+            cambiarURL();
+            cambiarContador("contSeis");
+            break;
+        case 7:
+            cambiarCartaNombre(" siete");
+            cambiarPuntos(7);
+            cambiarNuevaURL(siete);
+            cambiarURL();
+            cambiarContador("contSiete");
+            break;
+        case 10:
+            cambiarCartaNombre("a sota");
+            cambiarPuntos(0.5);
+            cambiarNuevaURL(sota);
+            cambiarURL();
+            cambiarContador("contSota");
+            break;
+        case 11:
+            cambiarCartaNombre(" caballo");
+            cambiarPuntos(0.5);
+            cambiarNuevaURL(caballo);
+            cambiarURL();
+            cambiarContador("contCaballo");
+            break;
+        case 12:
+            cambiarCartaNombre(" rey");
+            cambiarPuntos(0.5);
+            cambiarNuevaURL(rey);
+            cambiarURL();
+            cambiarContador("contRey");
+            break;
+        default:
+            console.error("Ha habido un error, prueba otra vez");
             break;
     }
     mensaje = `Has sacado un${cartaNombre}`;
@@ -298,6 +355,10 @@ const hasPerdido = () => { //Pierdes por quedarte sin cartas o por pasarte de pu
     }
 };
 
+const probarContadores = () => {
+    console.log(contAs, contDos, contTres, contCuatro, contCinco, contSeis, contSiete, contSota, contCaballo, contRey)
+}
+
 //Función para manejar dameCarta
 const dameCarta = () => {
     if (!juegoTerminado && puntos <= 7.5 && contTotal > 0 && botonDameCarta) {
@@ -306,7 +367,7 @@ const dameCarta = () => {
     } else if (juegoTerminado && botonDameCarta) {
         hasPerdidoMensaje();
         botonDameCarta.removeEventListener("click", dameCarta);
-    }
+    } probarContadores();
 };
 
 //Botón para pedir carta
@@ -385,11 +446,15 @@ const reinicio = () => {
     }
 };
 
-//Función para mostrar una nueva carta y actualizar los puntos
+const igualarNumAVariable = () => {
+    numeroCarta = nuevoNumeroAleatorio()
+}
+
+//Función para mostrar una nueva carta y actualizar los puntos  <---------- FALTA SACAR 
 const mostrarNumero = () => {
     if (contTotal >0) {
         if (puntos <= puntosMax) {
-            numeroCarta = nuevoNumeroAleatorio(); //Genera un nuevo num aleatorio
+            igualarNumAVariable(); //Genera un nuevo num aleatorio
             comprobarSiRepetido();  //Comprueba si ya ha salido
             cartaNueva(numeroCarta);//Muestra carta y actualiza los puntos
             muestraPuntuacion();    //Muestra los puntos
