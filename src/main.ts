@@ -428,6 +428,10 @@ const manejarMePlanto = () => {
     }
 };
 
+const seguirJuego = () => {
+    juegoTerminado = false
+};
+
 //Funcionamiento reinicio
 const reinicioJuego = () => {
     reiniciarVariables()
@@ -436,7 +440,7 @@ const reinicioJuego = () => {
     dameCarta();
     mensajeRestantesCuarenta();
     reiniciarMensajeComentarios();
-    juegoTerminado = false;
+    seguirJuego();
 };
 
 //Botón de reinicio
@@ -448,13 +452,13 @@ const reinicio = () => {
 
 const igualarNumAVariable = () => {
     numeroCarta = nuevoNumeroAleatorio()
-}
+};
 
 //Función para mostrar una nueva carta y actualizar los puntos  <---------- FALTA SACAR 
 const mostrarNumero = () => {
     if (contTotal >0) {
         if (puntos <= puntosMax) {
-            igualarNumAVariable(); //Genera un nuevo num aleatorio
+            igualarNumAVariable();  //Genera un nuevo num aleatorio
             comprobarSiRepetido();  //Comprueba si ya ha salido
             cartaNueva(numeroCarta);//Muestra carta y actualiza los puntos
             muestraPuntuacion();    //Muestra los puntos
@@ -463,13 +467,11 @@ const mostrarNumero = () => {
             verificarEstadoJuego(); //Verifica si has perdido en cada turno
             dameCarta();
         } else {
-            mensajeRestantes = "Has perdido, te has pasado de 7.5"; 
             hasPerdido();
             muestraQuedanCartas();
             verificarEstadoJuego();
         }
-    } else {
-        mensajeRestantes = "No te quedan cartas"; 
+    } else { 
         hasPerdido();
         muestraQuedanCartas();
         verificarEstadoJuego();
