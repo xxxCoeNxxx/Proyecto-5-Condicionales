@@ -7,32 +7,32 @@ let puntos: number = 0;
 let numeroCarta: number = 0;
 let mejorPuntuacion: number = 0;
 let juegoTerminado: boolean = false;
-let cartaNombre = "";
+let cartaNombre: string = "";
 
 //Botones y mensajes
-const puntosElement: HTMLElement | null = document.getElementById("puntucionJugador");
-const botonDameCarta: HTMLElement | null = document.getElementById("dameCarta");
-const cartaElement: HTMLElement | null = document.getElementById("mensaje");
-const imgAbajo: HTMLElement | null = document.getElementById("imgAbajo");
+const puntosElement = document.getElementById("puntucionJugador") as HTMLElement | null;
+const botonDameCarta = document.getElementById("dameCarta") as HTMLElement | null;
+const cartaElement = document.getElementById("mensaje") as HTMLElement | null;
+const imgAbajo = document.getElementById("imgAbajo") as HTMLElement | null;
 const imgCarta = document.getElementById("imgCarta") as HTMLImageElement;
-const mensajeElement: HTMLElement | null = document.getElementById("mensajeComentarios");
-const botonMePlanto: HTMLElement | null = document.getElementById("mePlanto");
-const botonReinicio: HTMLElement | null = document.getElementById("reinicio");
-const restantesElement: HTMLElement | null = document.getElementById("restantes");
-const puntuacionMaxElement: HTMLElement | null = document.getElementById("puntucionMax");
+const mensajeElement = document.getElementById("mensajeComentarios") as HTMLElement | null;
+const botonMePlanto = document.getElementById("mePlanto") as HTMLElement | null;
+const botonReinicio = document.getElementById("reinicio") as HTMLElement | null;
+const restantesElement = document.getElementById("restantes") as HTMLElement | null;
+const puntuacionMaxElement = document.getElementById("puntucionMax") as HTMLElement | null;
 
 //URLs de las cartas
-const as = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
-const dos = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
-const tres = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
-const cuatro = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
-const cinco = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
-const seis = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
-const siete = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
-const sota = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
-const caballo = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
-const rey = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
-const abajo = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
+const as: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
+const dos: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
+const tres: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
+const cuatro: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
+const cinco: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
+const seis: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
+const siete: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
+const sota: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
+const caballo: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
+const rey: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
+const abajo: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
 const nuevaURLAbajo = abajo;
 const mensajeCero = "";
 let nuevaURL = abajo;
@@ -72,7 +72,9 @@ const actualizarContTotal = () => {
 };
 
 const NoQuedanCartas = () => {
-    restantesElement.innerHTML = "No te quedan cartas";
+    if (restantesElement) {
+        restantesElement.innerHTML = "No te quedan cartas";
+    }
 };
 
 //Reinicio de variables
@@ -127,19 +129,20 @@ const muestraPuntuacion = () => {
     }
 };
 
-//Genera números aleatorios del 1 al 7 y del 10 al 12
 const nuevoNumeroAleatorio = (): number => {
-    const numeroAleatorio = Math.round(Math.random() * 10) + 1;
-    if (numeroAleatorio > 7) {
-        if (numeroAleatorio == 11){ 
-            return numeroAleatorio + 1;
-        }
-    return numeroAleatorio + 2;
-    } 
-    else {
+    const numeroAleatorio = Math.floor(Math.random() * 10) + 1; // Generar un número aleatorio entre 1 y 10
+    if (numeroAleatorio <= 7) {
         return numeroAleatorio;
+    } else {
+        return numeroAleatorio + 3;
     }
 };
+
+/* //Efecto de agrandado de nueva carta
+const agrandarCarta = () => {
+    const carta = document.getElementById("imgCarta");
+    carta.style.transform = "scale(1.05)";
+}; */
 
 //Funciones independientes para el switch principal
 const cambiarURL = () => {
@@ -280,11 +283,15 @@ function cartaNueva (numero: number): void {
     }
 };
 
+const igualarNumAVariable = () => {
+    numeroCarta = nuevoNumeroAleatorio()
+};
+
 //Comprobador de números repetidos
 const comprobarSiRepetido = () => {
     if (contTotal > 0) {
         while (true){
-            numeroCarta = nuevoNumeroAleatorio();
+            igualarNumAVariable();
             if ((numeroCarta == 1) && (contAs == 0) ||
                 (numeroCarta == 2) && (contDos == 0) ||
                 (numeroCarta == 3) && (contTres == 0) ||
@@ -350,30 +357,49 @@ const hasPerdidoCartas = () => { //Pierdes por quedarte sin cartas
 const hasPerdido = () => { //Pierdes por quedarte sin cartas o por pasarte de puntos
     if (puntos > puntosMax || contTotal === 0) {
         juegoTerminado = true;
-        hasPerdidoMensaje();
-        
+        hasPerdidoMensaje();        
+    }
+};
+
+const hasGanado = () => {
+    if (puntos === puntosMax) {
+        juegoTerminado = true;
     }
 };
 
 const probarContadores = () => {
     console.log(contAs, contDos, contTres, contCuatro, contCinco, contSeis, contSiete, contSota, contCaballo, contRey)
-}
+};
+
+//Función de ayuda para reducir redundancia
+const agregarEventoSiExiste = (elemento: HTMLElement | null, evento: string, handler: EventListener) => {
+    if (elemento) {
+        elemento.addEventListener(evento, handler);
+    }
+};
+
+const eliminarEventoSiExiste = (elemento: HTMLElement | null, evento: string, handler: EventListener) => {
+    if (elemento) {
+        elemento.removeEventListener(evento, handler);
+    }
+};
 
 //Función para manejar dameCarta
 const dameCarta = () => {
-    if (!juegoTerminado && puntos <= 7.5 && contTotal > 0 && botonDameCarta) {
-        botonDameCarta.addEventListener("click", mostrarNumero);
+    if (!juegoTerminado && puntos <= 7.5 && contTotal > 0) {
+        agregarEventoSiExiste(botonDameCarta, "click", mostrarNumero);
         reiniciarMensajeComentarios();
-    } else if (juegoTerminado && botonDameCarta) {
+    } else if (juegoTerminado) {
         hasPerdidoMensaje();
-        botonDameCarta.removeEventListener("click", dameCarta);
-    } probarContadores();
+        eliminarEventoSiExiste(botonDameCarta, "click", dameCarta);
+    } 
+    probarContadores();
 };
 
 //Botón para pedir carta
 const actualizarBotonDameCarta = () => {
-   if (juegoTerminado && botonDameCarta) {
-    botonDameCarta.removeEventListener("click", dameCarta);
+   if (juegoTerminado) {
+    eliminarEventoSiExiste(botonDameCarta, "click", dameCarta);
     reiniciarMensajeComentarios();
    }
 };
@@ -399,16 +425,12 @@ const compararSiMejor = () => {
 
 //LLama a la función mePlanto al hacer click
 const mePlanto = () => {
-    if (botonMePlanto) {
-        botonMePlanto.addEventListener("click", manejarMePlanto);
-    }
+    agregarEventoSiExiste(botonMePlanto, "click", manejarMePlanto);
 };
 
 //Función para bloquear el botón después de verificar el estado del juego
 const manejarBotonMePlanto = () => {
-    if (botonMePlanto) {
-        botonMePlanto.removeEventListener("click", manejarBotonMePlanto);
-    }
+    eliminarEventoSiExiste(botonMePlanto, "click", manejarBotonMePlanto);
 };
 
 //Función para verificar si el juego ha terminado
@@ -445,38 +467,27 @@ const reinicioJuego = () => {
 
 //Botón de reinicio
 const reinicio = () => {
-    if (botonReinicio) {
-        botonReinicio.addEventListener("click", reinicioJuego);
-    }
-};
-
-const igualarNumAVariable = () => {
-    numeroCarta = nuevoNumeroAleatorio()
+    agregarEventoSiExiste(botonReinicio, "click", reinicioJuego);
 };
 
 //Función para mostrar una nueva carta y actualizar los puntos  <---------- FALTA SACAR 
 const mostrarNumero = () => {
-    if (contTotal >0) {
-        if (puntos <= puntosMax) {
-            igualarNumAVariable();  //Genera un nuevo num aleatorio
-            comprobarSiRepetido();  //Comprueba si ya ha salido
-            cartaNueva(numeroCarta);//Muestra carta y actualiza los puntos
-            muestraPuntuacion();    //Muestra los puntos
-            actualizarContTotal();  //Actualiza contador de cartas restantes
-            muestraQuedanCartas();  //Muestra cartas restantes
-            verificarEstadoJuego(); //Verifica si has perdido en cada turno
-            dameCarta();
-        } else {
-            hasPerdido();
-            muestraQuedanCartas();
-            verificarEstadoJuego();
-        }
-    } else { 
+    if (puntos <= puntosMax) {
+        igualarNumAVariable();  // Genera un nuevo num aleatorio
+        comprobarSiRepetido();  // Comprueba si ya ha salido
+        cartaNueva(numeroCarta); // Muestra carta y actualiza los puntos
+        muestraPuntuacion();    // Muestra los puntos
+        actualizarContTotal();  // Actualiza contador de cartas restantes
+        muestraQuedanCartas();  // Muestra cartas restantes
+        verificarEstadoJuego(); // Verifica si has perdido en cada turno
+        dameCarta();
+    } else {
         hasPerdido();
         muestraQuedanCartas();
         verificarEstadoJuego();
     }
 };
+
 
 //Carga del DOM
 document.addEventListener("DOMContentLoaded", () => {

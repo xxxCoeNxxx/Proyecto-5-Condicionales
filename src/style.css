@@ -14,6 +14,15 @@
   -webkit-text-size-adjust: 100%;
 }
 
+.cartaRedondeada {
+  border-radius: 20px;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* .cartaRedondeada:hover {
+  transform: scale(1.05);
+} */
+
 a {
   font-weight: 500;
   color: #646cff;
