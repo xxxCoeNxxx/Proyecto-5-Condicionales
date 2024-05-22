@@ -13,13 +13,14 @@ let cartaNombre: string = "";
 const puntosElement = document.getElementById("puntucionJugador") as HTMLElement | null;
 const botonDameCarta = document.getElementById("dameCarta") as HTMLElement | null;
 const cartaElement = document.getElementById("mensaje") as HTMLElement | null;
-const imgAbajo = document.getElementById("imgAbajo") as HTMLElement | null;
+const imgAbajo = document.getElementById("imgAbajo") as HTMLImageElement | null;
 const imgCarta = document.getElementById("imgCarta") as HTMLImageElement;
 const mensajeElement = document.getElementById("mensajeComentarios") as HTMLElement | null;
 const botonMePlanto = document.getElementById("mePlanto") as HTMLElement | null;
 const botonReinicio = document.getElementById("reinicio") as HTMLElement | null;
 const restantesElement = document.getElementById("restantes") as HTMLElement | null;
 const puntuacionMaxElement = document.getElementById("puntucionMax") as HTMLElement | null;
+const botonQueHabriaPasado = document.getElementById("queHabriaPasado") as HTMLButtonElement | null;
 
 //URLs de las cartas
 const as: string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
@@ -103,10 +104,15 @@ const reiniciarNumeroCarta = () => {
     numeroCarta = numeroCartaCero
 };
 
-const reiniciarIMG = () => {
-    if (cartaElement){
-        imgCarta.src = abajo;
+const reiniciarCartaIMG = (elemImgCarta: HTMLImageElement) => {
+    if (cartaElement) {
+    elemImgCarta.src = abajo;
     }
+};
+
+const reiniciarIMG = () => {
+    reiniciarCartaIMG(imgAbajo);
+    reiniciarCartaIMG(imgCarta);
 };
 
 const reiniciarVariables = () => {
@@ -137,12 +143,6 @@ const nuevoNumeroAleatorio = (): number => {
         return numeroAleatorio + 3;
     }
 };
-
-/* //Efecto de agrandado de nueva carta
-const agrandarCarta = () => {
-    const carta = document.getElementById("imgCarta");
-    carta.style.transform = "scale(1.05)";
-}; */
 
 //Funciones independientes para el switch principal
 const cambiarURL = () => {
@@ -320,6 +320,10 @@ const muestraQuedanCartas = () => {
     }
 };
 
+const moverCarta = () => {
+    imgAbajo.src = imgCarta.src;
+};
+
 //Manejo de mejor puntuación
 const manejarMejorPuntuacion = () => {
     if ((puntos > mejorPuntuacion) && (puntos <= 7.5)) {
@@ -349,15 +353,27 @@ const hasPerdidoPuntos = () => { //Pierdes por pasarte de puntos
 };
 
 const hasPerdidoCartas = () => { //Pierdes por quedarte sin cartas
-    if (contTotal == 0) {
+    if (contTotal === 0) {
         hasPerdidoMensaje();
     }
 };
 
+const ocultar = (boton: HTMLButtonElement) => {
+    boton.style.opacity = "0";
+};
+
+const mostrar = (boton: HTMLButtonElement) => {
+    boton.style.opacity = "1";
+}
+
 const hasPerdido = () => { //Pierdes por quedarte sin cartas o por pasarte de puntos
     if (puntos > puntosMax || contTotal === 0) {
         juegoTerminado = true;
-        hasPerdidoMensaje();        
+        hasPerdidoMensaje();
+        
+        if (botonQueHabriaPasado) { //Muestra el botón oculto
+            mostrar(botonQueHabriaPasado);
+        }
     }
 };
 
@@ -462,6 +478,7 @@ const reinicioJuego = () => {
     dameCarta();
     mensajeRestantesCuarenta();
     reiniciarMensajeComentarios();
+    ocultar(botonQueHabriaPasado)
     seguirJuego();
 };
 
@@ -475,6 +492,7 @@ const mostrarNumero = () => {
     if (puntos <= puntosMax) {
         igualarNumAVariable();  // Genera un nuevo num aleatorio
         comprobarSiRepetido();  // Comprueba si ya ha salido
+        moverCarta();
         cartaNueva(numeroCarta); // Muestra carta y actualiza los puntos
         muestraPuntuacion();    // Muestra los puntos
         actualizarContTotal();  // Actualiza contador de cartas restantes
