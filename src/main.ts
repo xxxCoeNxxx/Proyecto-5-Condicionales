@@ -8,6 +8,7 @@ let numeroCarta: number = 0;
 let mejorPuntuacion: number = 0;
 let juegoTerminado: boolean = false;
 let cartaNombre: string = "";
+let noHayError: boolean = true;
 
 //Botones y mensajes
 const puntosElement = document.getElementById("puntucionJugador") as HTMLElement | null;
@@ -400,11 +401,71 @@ const eliminarEventoSiExiste = (elemento: HTMLElement | null, evento: string, ha
     }
 };
 
+//Manejar errores
+if (!puntosElement) {
+    console.error("Elemento 'puntucionJugador' no encontrado");
+    noHayError = false;
+};
+
+if (!botonDameCarta) {
+    console.error("Elemento 'dameCarta' no encontrado");
+    noHayError = false;
+};
+
+if (!imgCarta) {
+    console.error("Elemento 'imgCarta' no encontrado");
+    noHayError = false;
+};
+
+if (!mensajeElement) {
+    console.error("Elemento 'mensajeComentarios' no encontrado");
+    noHayError = false;
+};
+
+if (!restantesElement) {
+    console.error("Elemento 'restantes' no encontrado");
+    noHayError = false;
+};
+
+if (!puntuacionMaxElement) {
+    console.error("Elemento 'puntucionMax' no encontrado");
+    noHayError = false;
+};
+
+if (!botonMePlanto) {
+    console.error("Elemento 'mePlanto' no encontrado");
+    noHayError = false;
+};
+
+if (!botonReinicio) {
+    console.error("Elemento 'reinicio' no encontrado");
+    noHayError = false;
+};
+
+if (!botonQueHabriaPasado) {
+    console.error("Elemento 'queHabriaPasado' no encontrado");
+    noHayError = false;
+};
+
+//Manejo del error, saca carta automáticamente
+const renitentarDameCarta = () => {
+    setTimeout(() => {
+        if (noHayError) {
+            noHayError = true;
+            dameCarta();
+        }
+    }, 1000);
+};
+
 //Función para manejar dameCarta
 const dameCarta = () => {
     if (!juegoTerminado && puntos <= 7.5 && contTotal > 0) {
+        if (noHayError) {
         agregarEventoSiExiste(botonDameCarta, "click", mostrarNumero);
         reiniciarMensajeComentarios();
+        } else {
+            renitentarDameCarta();
+        }
     } else if (juegoTerminado) {
         hasPerdidoMensaje();
         eliminarEventoSiExiste(botonDameCarta, "click", dameCarta);
