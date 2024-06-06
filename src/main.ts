@@ -1,3 +1,11 @@
+// ------ CORREGIR AL PRODUCIRSE ERROR AL SACAR CARTA QUE DOBLA LA IMG EN CARTA IZQUIERDA !!!
+// ------ NO CONSIGO QUE EL JUEGO TERMINE AL TENER 7.5 SIN TENER QUE DAR A ME PLANTO
+// ------ FALTA MODIFICAR DIVS PARA QUE NO SE MUEVAN
+// ------ FALTA OCULTAR ME PLANTO AL PERDER POR PASARTE
+// ------ FALTA MODIFICAR TAMAÑOS, POSICIONES Y ESTILOS
+// ------ FALTA HACER QUE SE MUESTRE CARTA HACIA ABAJO EN LA IZQ AL PULSAR ME PLANTO 
+
+
 //Inicializar variables y definir constantes
 const puntosMax: number = 7.5;
 const puntosCero: number = 0;
@@ -12,15 +20,15 @@ let noHayError: boolean = true;
 
 //Botones y mensajes
 const puntosElement = document.getElementById("puntucionJugador") as HTMLElement | null;
-const botonDameCarta = document.getElementById("dameCarta") as HTMLElement | null;
 const cartaElement = document.getElementById("mensaje") as HTMLElement | null;
-const imgAbajo = document.getElementById("imgAbajo") as HTMLImageElement | null;
-const imgCarta = document.getElementById("imgCarta") as HTMLImageElement;
 const mensajeElement = document.getElementById("mensajeComentarios") as HTMLElement | null;
-const botonMePlanto = document.getElementById("mePlanto") as HTMLElement | null;
-const botonReinicio = document.getElementById("reinicio") as HTMLElement | null;
-const restantesElement = document.getElementById("restantes") as HTMLElement | null;
 const puntuacionMaxElement = document.getElementById("puntucionMax") as HTMLElement | null;
+const restantesElement = document.getElementById("restantes") as HTMLElement | null;
+const imgAbajo = document.getElementById("imgAbajo") as HTMLImageElement | null;
+const imgCarta = document.getElementById("imgCarta") as HTMLImageElement | null;
+const botonDameCarta = document.getElementById("dameCarta") as HTMLButtonElement | null;
+const botonMePlanto = document.getElementById("mePlanto") as HTMLButtonElement | null;
+const botonReinicio = document.getElementById("reinicio") as HTMLButtonElement | null;
 const botonQueHabriaPasado = document.getElementById("queHabriaPasado") as HTMLButtonElement | null;
 
 //URLs de las cartas
@@ -350,12 +358,14 @@ const hasPerdidoMensaje = () => {
 const hasPerdidoPuntos = () => { //Pierdes por pasarte de puntos
     if (puntos > puntosMax ) {
         hasPerdidoMensaje();
+        ocultar(botonMePlanto);
     }
 };
 
 const hasPerdidoCartas = () => { //Pierdes por quedarte sin cartas
     if (contTotal === 0) {
         hasPerdidoMensaje();
+        ocultar(botonMePlanto);
     }
 };
 
@@ -448,28 +458,26 @@ if (!botonQueHabriaPasado) {
 };
 
 //Manejo del error, saca carta automáticamente
-const renitentarDameCarta = () => {
+const reintentarDameCarta = () => {
     setTimeout(() => {
-        if (noHayError) {
-            noHayError = true;
-            dameCarta();
-        }
-    }, 1000);
+        noHayError = true; // Resetear la bandera de error antes de reintentar
+        mostrarNumero();
+    }, 1000); // Retraso de 1 segundo antes de reintentar
 };
 
 //Función para manejar dameCarta
 const dameCarta = () => {
     if (!juegoTerminado && puntos <= 7.5 && contTotal > 0) {
         if (noHayError) {
-        agregarEventoSiExiste(botonDameCarta, "click", mostrarNumero);
-        reiniciarMensajeComentarios();
+            agregarEventoSiExiste(botonDameCarta, "click", mostrarNumero);
+            reiniciarMensajeComentarios();
         } else {
-            renitentarDameCarta();
+            reintentarDameCarta(); // Si hay un error, reintentar
         }
     } else if (juegoTerminado) {
         hasPerdidoMensaje();
         eliminarEventoSiExiste(botonDameCarta, "click", dameCarta);
-    } 
+    }
     probarContadores();
 };
 
@@ -548,7 +556,7 @@ const reinicio = () => {
     agregarEventoSiExiste(botonReinicio, "click", reinicioJuego);
 };
 
-//Función para mostrar una nueva carta y actualizar los puntos  <---------- FALTA SACAR 
+//Función principal
 const mostrarNumero = () => {
     if (puntos <= puntosMax) {
         igualarNumAVariable();  // Genera un nuevo num aleatorio
