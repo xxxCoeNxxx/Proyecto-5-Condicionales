@@ -21,7 +21,7 @@ let noHayError: boolean = true;
 //Botones y mensajes
 const puntosElement = document.getElementById("puntucionJugador");
 const cartaElement = document.getElementById("mensaje");
-const mensajeElement = document.getElementById("mensajeComentarios");  // EVITAR HTMLELEMENT <------------
+const mensajeElement = document.getElementById("mensajeComentarios");
 const puntuacionMaxElement = document.getElementById("puntucionMax");
 const restantesElement = document.getElementById("restantes");
 const imgAbajo = document.getElementById("imgAbajo");
@@ -65,14 +65,19 @@ let contTotal: number = 40;
 
 //Reinicio del mensaje de cartas restantes
 const mensajeRestantesCuarenta = () => {
-    if (restantesElement instanceof HTMLDivElement)
-    restantesElement.textContent = "Te quedan 40 cartas"
+    if (restantesElement instanceof HTMLDivElement) {
+        restantesElement.textContent = "Te quedan 40 cartas";
+    }
 };
 
 //Función pare reiniciar los contadores
 const reiniciarContadores = () => {
-    contAs = contDos = contTres = contCuatro = contCinco = contSeis 
-    = contSiete = contSota = contCaballo = contRey = contMax;  
+    if (puntosElement instanceof HTMLDivElement &&
+        mensajeElement instanceof HTMLParagraphElement &&
+        restantesElement instanceof HTMLDivElement) {
+            contAs = contDos = contTres = contCuatro = contCinco = contSeis 
+            = contSiete = contSota = contCaballo = contRey = contMax;  
+        }
 };
 
 //Contador de cartas restantes
@@ -108,11 +113,11 @@ const reiniciarPuntos = () => {
 };
 
 const reiniciarMejorPuntuacion = () => {
-    mejorPuntuacion = mejorPuntuacionCero
+    mejorPuntuacion = mejorPuntuacionCero;
 };
 
 const reiniciarNumeroCarta = () => {
-    numeroCarta = numeroCartaCero
+    numeroCarta = numeroCartaCero;
 };
 
 const reiniciarCartaIMG = (elemImgCarta: HTMLImageElement) => {
@@ -159,15 +164,15 @@ const obtenerNumeroCarta = (numeroAleatorio: number) => {
 
 //Funciones independientes para el switch principal
 const cambiarPuntos = (sumando: number) => {
-    puntos = (puntos + sumando)
+    puntos = (puntos + sumando);
 }
 
 const cambiarNuevaURL = (nombreParaURL: string) => {
-    nuevaURL = nombreParaURL
+    nuevaURL = nombreParaURL;
 }
 
 const cambiarCartaNombre = (nombreEnString: string) => {
-    cartaNombre = nombreEnString
+    cartaNombre = nombreEnString;
 }
 
 //Switch para reducir contador de cada carta
@@ -319,7 +324,6 @@ const muestraQuedanCartas = () => {
     }
 };
 
-
 //Manejo de mejor puntuación
 const manejarMejorPuntuacion = () => {
     if ((puntos > mejorPuntuacion) && (puntos <= 7.5)) {
@@ -339,24 +343,6 @@ const hasPerdidoMensaje = () => {
     mensajeRestantes = `<h2>Has perdido, te pasaste de 7.5</h2>`;
     if (mensajeElement instanceof HTMLParagraphElement) {
         mensajeElement.innerHTML = mensajeRestantes;
-    }
-};
-
-const hasPerdidoPuntos = () => { //Pierdes por pasarte de puntos
-    if (puntos > puntosMax ) {
-        hasPerdidoMensaje();
-    }
-};
-
-const hasPerdidoCartas = () => { //Pierdes por quedarte sin cartas
-    if (contTotal === 0) {
-        hasPerdidoMensaje();
-    }
-};
-
-const hasGanado = () => {
-    if (puntos === puntosMax) {
-        juegoTerminado = true;
     }
 };
 
@@ -408,17 +394,6 @@ const obtenerURLCarta = (carta: number): string => {
     }
 };
 
-const dameCarta = () => {
-    const numeroAleatorio = obtenerNumeroAleatorio();
-    const carta = obtenerNumeroCarta(numeroAleatorio);
-    const URLCarta = obtenerURLCarta(carta);
-    mostrarURLCarta(URLCarta);
-    const puntos = obtenerPuntosCarta(carta);
-    const puntosSumados = sumarPuntos(puntos);
-    actualizarPuntos(puntosSumados);
-    gestionarPartida();
-};
-
 const mostrarURLCarta = (URLCarta: string) => {
     const imgCarta = document.getElementById("imgCarta");
     if (imgCarta && imgCarta instanceof HTMLImageElement) {
@@ -434,7 +409,7 @@ const sumarPuntos = (punto: number) => {
     return puntos + punto;
 };
 
-const actualizarPuntos = (nuevosPuntos : number) => {
+const actualizarPuntos = (nuevosPuntos: number) => {
     puntos = nuevosPuntos;
 };
 
@@ -443,14 +418,21 @@ const gestionarPartida = () => {
         console.log("hemos ganado");
     } else if (puntos > 7.5) {
         console.log("hemos perdido");
+        juegoTerminado = true;
+        
     }
 };
 
 //Botón para pedir carta
 const actualizarBotonDameCarta = () => {
-   if (juegoTerminado) {
-        reiniciarMensajeComentarios();
-   }
+    if (botonDameCarta instanceof HTMLButtonElement) {
+        if (juegoTerminado) {
+            botonDameCarta.disabled = true;
+            reiniciarMensajeComentarios();
+        } else {
+            botonDameCarta.disabled = false;
+        }
+    }
 };
 
 //Mensaje al plantarse
@@ -476,7 +458,7 @@ const obtenerMensajeAlPlantarse = () => {
 //Actualiza la mejor puntuación
 const compararSiMejor = () => {
     if (puntos > mejorPuntuacion) {
-        mejorPuntuacion = puntos
+        mejorPuntuacion = puntos;
     }
 };
 
@@ -486,6 +468,8 @@ const mePlanto = () => {
         agregarEventoSiExiste(botonMePlanto, "click", manejarMePlanto);
     }
 };
+
+
 
 //Funciones que realiza mePlanto
 const manejarMePlanto = () => {
@@ -498,7 +482,20 @@ const manejarMePlanto = () => {
 };
 
 const seguirJuego = () => {
-    juegoTerminado = false
+    juegoTerminado = false;
+};
+
+const dameCarta = () => {
+    const numeroAleatorio = obtenerNumeroAleatorio();
+    const carta = obtenerNumeroCarta(numeroAleatorio);
+    const URLCarta = obtenerURLCarta(carta);
+    mostrarURLCarta(URLCarta);
+    const puntosCarta = obtenerPuntosCarta(carta);
+    const puntosSumados = sumarPuntos(puntosCarta);
+    actualizarPuntos(puntosSumados);
+    muestraPuntuacion();
+    gestionarPartida();
+    actualizarBotonDameCarta();
 };
 
 //Funcionamiento reinicio
@@ -506,10 +503,24 @@ const reinicioJuego = () => {
     reiniciarVariables()
     reiniciarMejorPuntuacion();
     muestraPuntuacion();
-    dameCarta();
     mensajeRestantesCuarenta();
     reiniciarMensajeComentarios();
     seguirJuego();
+    if (botonDameCarta instanceof HTMLButtonElement) {
+        desbloquearBoton(botonDameCarta);
+    }
+    if (botonMePlanto instanceof HTMLButtonElement) {
+        desbloquearBoton(botonMePlanto);
+    }
+};
+
+//Bloquear botones
+const bloquearBoton = (boton: HTMLButtonElement): void => {
+    boton.disabled = true;
+};
+
+const desbloquearBoton = (boton: HTMLButtonElement): void => {
+    boton.disabled = false;
 };
 
 //Botón de reinicio
@@ -537,8 +548,10 @@ const mostrarNumero = () => {
 
 //Carga del DOM
 document.addEventListener("DOMContentLoaded", () => {
+    if (botonDameCarta instanceof HTMLButtonElement) {
+        botonDameCarta.addEventListener("click", dameCarta);
+    }
     muestraPuntuacion();
-    dameCarta();
     reinicio();
     mePlanto();
     muestraQuedanCartas();
