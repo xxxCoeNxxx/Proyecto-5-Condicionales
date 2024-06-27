@@ -20,11 +20,11 @@ let noHayError: boolean = true;
 
 //Botones y mensajes
 const puntosElement = document.getElementById("puntucionJugador");
-const cartaElement = document.getElementById("mensaje");
+const cartaElement= document.getElementById("mensaje");
 const mensajeElement = document.getElementById("mensajeComentarios");
 const puntuacionMaxElement = document.getElementById("puntucionMax");
 const restantesElement = document.getElementById("restantes");
-const imgAbajo = document.getElementById("imgAbajo");
+const imgCarta = document.getElementById("imgCarta");
 const botonDameCarta = document.getElementById("dameCarta");
 const botonMePlanto = document.getElementById("mePlanto");
 const botonReinicio = document.getElementById("reinicio");
@@ -72,12 +72,9 @@ const mensajeRestantesCuarenta = () => {
 
 //Función pare reiniciar los contadores
 const reiniciarContadores = () => {
-    if (puntosElement instanceof HTMLDivElement &&
-        mensajeElement instanceof HTMLParagraphElement &&
-        restantesElement instanceof HTMLDivElement) {
-            contAs = contDos = contTres = contCuatro = contCinco = contSeis 
-            = contSiete = contSota = contCaballo = contRey = contMax;  
-        }
+    contAs = contDos = contTres = contCuatro = contCinco = contSeis 
+        = contSiete = contSota = contCaballo = contRey = contMax;
+    contTotal = contTotalMax;
 };
 
 //Contador de cartas restantes
@@ -120,29 +117,17 @@ const reiniciarNumeroCarta = () => {
     numeroCarta = numeroCartaCero;
 };
 
-const reiniciarCartaIMG = (elemImgCarta: HTMLImageElement) => {
-    if (cartaElement instanceof HTMLImageElement) {
-    elemImgCarta.src = abajo;
-    }
-};
-
 const reiniciarIMG = () => {
-    if (imgAbajo instanceof HTMLImageElement) {
-        reiniciarCartaIMG(imgAbajo);
+    if (imgCarta && imgCarta instanceof HTMLImageElement) {
+        reiniciarCartaIMG(imgCarta);
+        console.log("reiniciarIMG se está ejecutando"); 
+    } else {
+        console.error("imgAbajo no es una instancia de htmlImageElement")
     }
 };
 
-const reiniciarVariables = () => {
-    reiniciarPuntos();
-    reiniciarNumeroCarta();
-    reiniciarCarta();
-    reiniciarMensaje();
-    mensajeRestantesCuarenta();
-    reiniciarContadores();
-    actualizarContTotal();
-    mostrarMejorPuntuacion();
-    reiniciarMensajeComentarios();
-    reiniciarIMG();
+const reiniciarCartaIMG = (elemImgCarta: HTMLImageElement) => {
+    elemImgCarta.src = abajo;
 };
 
 const muestraPuntuacion = () => { //Muestra los puntos en pantalla
@@ -160,20 +145,29 @@ const obtenerNumeroCarta = (numeroAleatorio: number) => {
         return numeroAleatorio + 2;
     }
     return numeroAleatorio;
-}
+};
+
+//Bloquear botones
+const bloquearBoton = (boton: HTMLButtonElement): void => {
+    boton.disabled = true;
+};
+
+const desbloquearBoton = (boton: HTMLButtonElement): void => {
+    boton.disabled = false;
+};
 
 //Funciones independientes para el switch principal
 const cambiarPuntos = (sumando: number) => {
     puntos = (puntos + sumando);
-}
+};
 
 const cambiarNuevaURL = (nombreParaURL: string) => {
     nuevaURL = nombreParaURL;
-}
+};
 
 const cambiarCartaNombre = (nombreEnString: string) => {
     cartaNombre = nombreEnString;
-}
+};
 
 //Switch para reducir contador de cada carta
 const cambiarContador = (nombreCont: string) => {
@@ -219,61 +213,61 @@ function cartaNueva (numero: number): void {
     switch(numero) {
         case 1:
             cambiarCartaNombre(" as");
-            cambiarPuntos(1);
+            //cambiarPuntos(1);
             cambiarNuevaURL(as);
             cambiarContador("contAs");
             break;
         case 2:
             cambiarCartaNombre(" dos");
-            cambiarPuntos(2);
+            //cambiarPuntos(2);
             cambiarNuevaURL(dos);
             cambiarContador("contDos");
             break;
         case 3:
             cambiarCartaNombre(" tres");
-            cambiarPuntos(3);
+            //cambiarPuntos(3);
             cambiarNuevaURL(tres);
             cambiarContador("contTres");
             break; 
         case 4:
             cambiarCartaNombre(" cuatro");
-            cambiarPuntos(4);
+            //cambiarPuntos(4);
             cambiarNuevaURL(cuatro);
             cambiarContador("contCuatro");
             break;
         case 5:
             cambiarCartaNombre(" cinco");
-            cambiarPuntos(5);
+            //cambiarPuntos(5);
             cambiarNuevaURL(cinco);
             cambiarContador("contCinco");
             break
         case 6:
             cambiarCartaNombre(" seis");
-            cambiarPuntos(6);
+            //cambiarPuntos(6);
             cambiarNuevaURL(seis);
             cambiarContador("contSeis");
             break;
         case 7:
             cambiarCartaNombre(" siete");
-            cambiarPuntos(7);
+            //cambiarPuntos(7);
             cambiarNuevaURL(siete);
             cambiarContador("contSiete");
             break;
         case 10:
             cambiarCartaNombre("a sota");
-            cambiarPuntos(0.5);
+            //cambiarPuntos(0.5);
             cambiarNuevaURL(sota);
             cambiarContador("contSota");
             break;
         case 11:
             cambiarCartaNombre(" caballo");
-            cambiarPuntos(0.5);
+            //cambiarPuntos(0.5);
             cambiarNuevaURL(caballo);
             cambiarContador("contCaballo");
             break;
         case 12:
             cambiarCartaNombre(" rey");
-            cambiarPuntos(0.5);
+            //cambiarPuntos(0.5);
             cambiarNuevaURL(rey);
             cambiarContador("contRey");
             break;
@@ -347,7 +341,8 @@ const hasPerdidoMensaje = () => {
 };
 
 const probarContadores = () => {
-    console.log(contAs, contDos, contTres, contCuatro, contCinco, contSeis, contSiete, contSota, contCaballo, contRey)
+    console.log(contAs, contDos, contTres, contCuatro, contCinco, contSeis, contSiete, contSota, contCaballo, contRey);
+    console.log(mensajeRestantes);
 };
 
 //Función de ayuda para reducir redundancia
@@ -395,7 +390,6 @@ const obtenerURLCarta = (carta: number): string => {
 };
 
 const mostrarURLCarta = (URLCarta: string) => {
-    const imgCarta = document.getElementById("imgCarta");
     if (imgCarta && imgCarta instanceof HTMLImageElement) {
         imgCarta.src = URLCarta;
     }
@@ -447,14 +441,6 @@ const calcularMensajeFinal = () =>{
     }
 };
 
-const obtenerMensajeAlPlantarse = () => {
-    let mensaje = "";
-    if (puntos < 4) {
-        mensaje = "Has sido muy conservador"; 
-    }
-    return mensaje;
-}
-
 //Actualiza la mejor puntuación
 const compararSiMejor = () => {
     if (puntos > mejorPuntuacion) {
@@ -468,8 +454,6 @@ const mePlanto = () => {
         agregarEventoSiExiste(botonMePlanto, "click", manejarMePlanto);
     }
 };
-
-
 
 //Funciones que realiza mePlanto
 const manejarMePlanto = () => {
@@ -485,42 +469,27 @@ const seguirJuego = () => {
     juegoTerminado = false;
 };
 
+const puntosConsola = () => {
+    console.log("puntos " + puntos);
+};
+
 const dameCarta = () => {
-    const numeroAleatorio = obtenerNumeroAleatorio();
-    const carta = obtenerNumeroCarta(numeroAleatorio);
+    comprobarSiRepetido();
+    const carta = numeroCarta;
+    cartaNueva(carta);
+    puntosConsola();
     const URLCarta = obtenerURLCarta(carta);
     mostrarURLCarta(URLCarta);
     const puntosCarta = obtenerPuntosCarta(carta);
     const puntosSumados = sumarPuntos(puntosCarta);
     actualizarPuntos(puntosSumados);
+    puntosConsola();
     muestraPuntuacion();
     gestionarPartida();
     actualizarBotonDameCarta();
-};
-
-//Funcionamiento reinicio
-const reinicioJuego = () => {
-    reiniciarVariables()
-    reiniciarMejorPuntuacion();
-    muestraPuntuacion();
-    mensajeRestantesCuarenta();
-    reiniciarMensajeComentarios();
-    seguirJuego();
-    if (botonDameCarta instanceof HTMLButtonElement) {
-        desbloquearBoton(botonDameCarta);
-    }
-    if (botonMePlanto instanceof HTMLButtonElement) {
-        desbloquearBoton(botonMePlanto);
-    }
-};
-
-//Bloquear botones
-const bloquearBoton = (boton: HTMLButtonElement): void => {
-    boton.disabled = true;
-};
-
-const desbloquearBoton = (boton: HTMLButtonElement): void => {
-    boton.disabled = false;
+    actualizarContTotal();
+    muestraQuedanCartas();
+    probarContadores();
 };
 
 //Botón de reinicio
@@ -529,6 +498,33 @@ const reinicio = () => {
         agregarEventoSiExiste(botonReinicio, "click", reinicioJuego);
     }
 };
+
+const reiniciarVariables = () => {
+    reiniciarPuntos();
+    reiniciarNumeroCarta();
+    reiniciarCarta();
+    reiniciarIMG();
+    reiniciarMensaje();
+    reiniciarContadores();
+    actualizarContTotal();
+    mostrarMejorPuntuacion();
+    reiniciarMensajeComentarios();
+    mensajeRestantesCuarenta();
+};
+
+//Funcionamiento reinicio
+const reinicioJuego = () => {
+    reiniciarVariables();
+    seguirJuego();
+    muestraPuntuacion();
+    if (botonDameCarta instanceof HTMLButtonElement) {
+        desbloquearBoton(botonDameCarta);
+    }
+    if (botonMePlanto instanceof HTMLButtonElement) {
+        desbloquearBoton(botonMePlanto);
+    }
+};
+
 
 //Función principal
 const mostrarNumero = () => {
@@ -545,14 +541,11 @@ const mostrarNumero = () => {
     }
 };
 
-
 //Carga del DOM
 document.addEventListener("DOMContentLoaded", () => {
-    if (botonDameCarta instanceof HTMLButtonElement) {
-        botonDameCarta.addEventListener("click", dameCarta);
-    }
-    muestraPuntuacion();
-    reinicio();
-    mePlanto();
+    agregarEventoSiExiste(botonDameCarta, "click", dameCarta);
+    agregarEventoSiExiste(botonReinicio, "click", reinicioJuego);
+    agregarEventoSiExiste(botonMePlanto, "click", mePlanto);
     muestraQuedanCartas();
+    muestraPuntuacion();
 });
