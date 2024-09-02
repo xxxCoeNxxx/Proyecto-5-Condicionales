@@ -1,10 +1,3 @@
-// SIMPLIFICAR Y PONER SOLO UNA CARTA
-
-// ------ NO CONSIGO QUE EL JUEGO TERMINE AL TENER 7.5 SIN TENER QUE DAR A ME PLANTO
-// ------ FALTA MODIFICAR DIVS PARA QUE NO SE MUEVAN
-// ------ FALTA OCULTAR ME PLANTO AL PERDER POR PASARTE   ---> SOLO DESHABILITARLOS
-// ------ FALTA MODIFICAR TAMAÑOS, POSICIONES Y ESTILOS
-
 
 //Inicializar variables y definir constantes
 const PUNTOSMAX: number = 7.5;
@@ -304,12 +297,12 @@ const comprobarSiRepetido = () => {
             }
         } 
     }
-}
+};
 
 //Muestra cartas restantes
 const muestraQuedanCartas = () => {
-    mensajeRestantes = CONTTOTALMAX > 0 ? `Te quedan ${contTotal} cartas`:
-                     CONTTOTALMAX === 0 ? `No te quedan cartas`:
+    mensajeRestantes = contTotal > 0 ? `Te quedan ${contTotal} cartas`:
+                     contTotal === 0 ? `No te quedan cartas`:
                         "";
     if (restantesElement instanceof HTMLDivElement) {
         restantesElement.textContent = mensajeRestantes;
@@ -474,8 +467,8 @@ const dameCarta = () => {
     mostrarURLCarta(URLCarta);
     const puntosCarta = obtenerPuntosCarta(carta);
     const puntosSumados = sumarPuntos(puntosCarta);
-    gestionarPartida();
     actualizarPuntos(puntosSumados);
+    gestionarPartida();
     puntosConsola();
     muestraPuntuacion();
     actualizarBotonDameCarta();
