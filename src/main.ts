@@ -107,13 +107,16 @@ const comprobarPartida = () => {
 const dameCarta = () => {
   const numeroAleatorio = obtenerNumeroAleatorio();
   const carta = obtenerNumeroCarta(numeroAleatorio);
+  cambiarContador(carta.toString());
+  actualizarContTotal()
   const urlCarta = obtenerUrlCarta(carta);
   pintarCarta(urlCarta);
   const puntosCarta = obtenerPuntosCarta(carta);
   const puntosSumados = sumarPuntos(puntosCarta);
   actualizarPuntuacion(puntosSumados);
-    pintarPuntuacion(puntosTotales);
-    comprobarPartida();
+  pintarPuntuacion(puntosTotales);
+  pintarRestantes(contTotal.toString())
+  comprobarPartida();
 };
 
 const botonDameCarta = document.getElementById("dameCarta");
@@ -142,6 +145,8 @@ if (
     pintarPuntuacion(0);
     pintarMejorPuntuacion(0);
     pintarMensajeFinal("");
+    pintarRestantes("40");
+    reiniciarContadores();
 
     if (botonDameCarta !== null && 
       botonDameCarta !== undefined && 
@@ -195,4 +200,78 @@ if (
 // Bloquea o desbloquea el botón --> bloquearBoton(BotonElegido, true/false) 
 const bloquearBoton = (boton: HTMLButtonElement, elegirToF: boolean): void => {
   boton.disabled = elegirToF;
+};
+
+const pintarRestantes = (mensajeRestantes: string) => {
+  const elementoMensajeRestantes = document.getElementById("restantes")
+  if (
+    elementoMensajeRestantes !== null &&
+    elementoMensajeRestantes !== undefined &&
+    elementoMensajeRestantes instanceof HTMLSpanElement
+  ) {
+    elementoMensajeRestantes.innerText = `${mensajeRestantes}`
+  }
+};
+
+const CONTMAX: number = 4;
+const CONTTOTALMAX: number = 40;
+let contAs: number = 4;
+let contDos: number = 4;
+let contTres: number = 4;
+let contCuatro: number = 4;
+let contCinco: number = 4;
+let contSeis: number = 4;
+let contSiete: number = 4;
+let contSota: number = 4;
+let contCaballo: number =4;
+let contRey: number = 4;
+let contTotal: number = 40;
+
+const reiniciarContadores = () => {
+  contAs = contDos = contTres = contCuatro = contCinco = contSeis 
+      = contSiete = contSota = contCaballo = contRey = CONTMAX;
+  contTotal = CONTTOTALMAX;
+}; 
+
+const actualizarContTotal = () => {
+  contTotal = contAs + contDos + contTres + contCuatro + contCinco 
+          + contSeis + contSiete + contSota + contCaballo + contRey;
+};
+
+const cambiarContador = (nombreCont: string) => {
+  switch(nombreCont) {
+      case "1":
+          contAs--;
+          break;
+      case "2":
+          contDos--;
+          break;
+      case "3":
+          contTres--;
+          break;
+      case "4":
+          contCuatro--;
+          break;
+      case "5":
+          contCinco--;
+          break;
+      case "6":
+          contSeis--;
+          break;
+      case "7":
+          contSiete--;
+          break;
+      case "10":
+          contSota--;
+          break;
+      case "11":
+          contCaballo--;
+          break;
+      case "12":
+          contRey--;
+          break;
+      default:
+          console.error("Ha habido un error, por favor reinicia la página");
+          break;
+  }
 };
