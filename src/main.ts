@@ -44,9 +44,9 @@ const pintarCarta = (urlCarta: string) => { // Muestra la carta si no hay error
   const elementoImagen = document.getElementById("imgCarta");
 
   if (
-    elementoImagen !== null &&
-    elementoImagen !== undefined &&
-    elementoImagen instanceof HTMLImageElement
+    elementoImagen !== null &&                   // SE PODRIA CREAR UNA FUNCION CON ESTO?     <---------
+    elementoImagen !== undefined &&              // 
+    elementoImagen instanceof HTMLImageElement   //
   ) {
     elementoImagen.src = urlCarta;
   }
@@ -80,18 +80,28 @@ const pintarPuntuacion = (puntuacion: number) => {
 };
 
 const comprobarPartida = () => {
-    if (puntosTotales === 7.5) {
-        console.log('Has ganado');
-        /* if (botonDameCarta !== null && botonDameCarta instanceof HTMLButtonElement) {
-          bloquearBoton(botonDameCarta, true);
-        }
-        if (botonMePlanto !== null && botonMePlanto instanceof HTMLButtonElement) {
-          bloquearBoton(botonMePlanto, true);
-        } */
+  if (puntosTotales === 7.5 || puntosTotales > 7.5) {
+    if (botonDameCarta !== null && 
+      botonDameCarta !== undefined && 
+      botonDameCarta instanceof HTMLButtonElement) {
+      bloquearBoton(botonDameCarta, true);
     }
-    if (puntosTotales > 7.5) {
-        console.log('Has perdido');
+    if (botonMePlanto !== null && 
+      botonMePlanto !== undefined && 
+      botonMePlanto instanceof HTMLButtonElement) {
+      bloquearBoton(botonMePlanto, true);
     }
+  }
+  
+  if (puntosTotales === 7.5) {
+    console.log('Has ganado');
+    pintarMejorPuntuacion(7.5);
+    pintarMensajeFinal("HAS GANADO!");
+  }
+  if (puntosTotales > 7.5) {
+    console.log('Has perdido');
+    pintarMensajeFinal("Has perdido... Prueba otra vez!");
+  }
 };
 
 const dameCarta = () => {
@@ -127,22 +137,44 @@ if (
 ) {
   botonReinicio.addEventListener("click", () => {
     pintarCarta(cartaBack);
-    puntosTotales = 0; // se puede quitar??
+    puntosTotales = 0;              // SE PUEDE QUITAR?      <---------------------
     actualizarPuntuacion(0);
     pintarPuntuacion(0);
-    pintarMejorPuntuacion(0)
-  })
+    pintarMejorPuntuacion(0);
+    pintarMensajeFinal("");
+
+    if (botonDameCarta !== null && 
+      botonDameCarta !== undefined && 
+      botonDameCarta instanceof HTMLButtonElement) {
+      bloquearBoton(botonDameCarta, false);
+    }
+    if (botonMePlanto !== null && 
+      botonMePlanto !== undefined && 
+      botonMePlanto instanceof HTMLButtonElement) {
+      bloquearBoton(botonMePlanto, false);
+    }
+   })
 };
 
 const pintarMejorPuntuacion = (mejorPuntuacion: number) => {
   const elementoMejorPuntuacion = document.getElementById("mejorPuntuacion")
-
   if (
     elementoMejorPuntuacion !== null &&
     elementoMejorPuntuacion !== undefined &&
     elementoMejorPuntuacion instanceof HTMLSpanElement
   ) {
     elementoMejorPuntuacion.innerText = `${mejorPuntuacion}`
+  }
+};
+
+const pintarMensajeFinal = (mensajeFinal: string) => {
+  const elementoMensajeFinal = document.getElementById("mensajeFinal")
+  if (
+    elementoMensajeFinal !== null &&
+    elementoMensajeFinal !== undefined &&
+    elementoMensajeFinal instanceof HTMLSpanElement
+  ) {
+    elementoMensajeFinal.innerText = `${mensajeFinal}`
   }
 };
 
