@@ -1,4 +1,5 @@
 let puntosTotales : number = 0;
+let puntosSumados: number = 0;
 const cartaBack : string = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
 
 const obtenerNumeroAleatorio = () => {
@@ -64,7 +65,9 @@ const sumarPuntos = (puntos: number) => {
 };
 
 const actualizarPuntuacion = (puntosActuales: number) => {
-  puntosTotales = puntosActuales;
+  if (puntosActuales > puntosTotales){
+    puntosTotales = puntosActuales;
+  }
 };
 
 const pintarPuntuacion = (puntuacion: number) => {
@@ -109,10 +112,11 @@ const dameCarta = () => {
   const carta = obtenerNumeroCarta(numeroAleatorio);
   cambiarContador(carta.toString());
   actualizarContTotal()
+  consoleContadores();
   const urlCarta = obtenerUrlCarta(carta);
   pintarCarta(urlCarta);
   const puntosCarta = obtenerPuntosCarta(carta);
-  const puntosSumados = sumarPuntos(puntosCarta);
+  puntosSumados = sumarPuntos(puntosCarta);
   actualizarPuntuacion(puntosSumados);
   pintarPuntuacion(puntosTotales);
   pintarRestantes(contTotal.toString())
@@ -140,7 +144,7 @@ if (
 ) {
   botonReinicio.addEventListener("click", () => {
     pintarCarta(cartaBack);
-    puntosTotales = 0;              // SE PUEDE QUITAR?      <---------------------
+    puntosTotales = 0;
     actualizarPuntuacion(0);
     pintarPuntuacion(0);
     pintarMejorPuntuacion(0);
@@ -193,6 +197,10 @@ if (
   botonMePlanto.addEventListener("click", () => {
    pintarMejorPuntuacion(puntosTotales);
    actualizarPuntuacion(0);
+   pintarPuntuacion(0);
+   console.log(puntosSumados);          // <----------- ERROR: LOS PUNTOS SUMADOS NO SE REINICIAN
+   puntosSumados = 0;
+   console.log(puntosSumados);
    comprobarPartida();
   })
 };
@@ -274,4 +282,8 @@ const cambiarContador = (nombreCont: string) => {
           console.error("Ha habido un error, por favor reinicia la página");
           break;
   }
+};
+
+const consoleContadores = () => {
+  console.log(contAs, contDos, contTres, contCuatro, contCinco, contSeis, contSiete, contSota, contCaballo, contRey)
 };
