@@ -85,14 +85,15 @@ const comprobarPartida = () => {
     if (botonDameCarta !== null && 
       botonDameCarta !== undefined && 
       botonDameCarta instanceof HTMLButtonElement) {
-      bloquearBoton(botonDameCarta, true);
-    }
-    if (botonMePlanto !== null && 
+        bloquearBoton(botonDameCarta, true);
+      }
+    if (
+      botonMePlanto !== null && 
       botonMePlanto !== undefined && 
       botonMePlanto instanceof HTMLButtonElement) {
-      bloquearBoton(botonMePlanto, true);
-    }
-  }
+        bloquearBoton(botonMePlanto, true);
+      }
+  };
   
   if (puntosTotales === 7.5) {
     pintarMejorPuntuacion(7.5);
@@ -157,6 +158,11 @@ if (
       botonMePlanto instanceof HTMLButtonElement) {
       bloquearBoton(botonMePlanto, false);
     }
+    if (botonQueHabriaPasado !== null && 
+      botonQueHabriaPasado !== undefined && 
+      botonQueHabriaPasado instanceof HTMLButtonElement) {
+      bloquearBoton(botonQueHabriaPasado, true);
+    }
    })
 };
 
@@ -190,13 +196,19 @@ if (
   botonMePlanto instanceof HTMLButtonElement
 ) {
   botonMePlanto.addEventListener("click", () => {
-   bloquearBoton(botonMePlanto, true);
-   if (
+    bloquearBoton(botonMePlanto, true);
+    if (
     botonDameCarta !== null &&
     botonDameCarta !== undefined &&
     botonDameCarta instanceof HTMLButtonElement) {
       bloquearBoton(botonDameCarta, true);
     }
+    if (
+      botonQueHabriaPasado !== null &&
+      botonQueHabriaPasado !== undefined &&
+      botonQueHabriaPasado instanceof HTMLButtonElement) {
+        bloquearBoton(botonQueHabriaPasado, false);
+      }
    pintarMejorPuntuacion(puntosTotales);
    actualizarPuntuacion(0);
    pintarPuntuacion(0);
@@ -310,3 +322,19 @@ const pintarComentarios = () => {
       }
   }
 }
+
+const botonQueHabriaPasado = document.getElementById("queHabriaPasado");
+if (
+  botonQueHabriaPasado !== null &&
+  botonQueHabriaPasado !== undefined &&
+  botonQueHabriaPasado instanceof HTMLButtonElement) {
+    botonQueHabriaPasado.addEventListener("click", () => {
+      const numeroAleatorio = obtenerNumeroAleatorio();
+      const carta = obtenerNumeroCarta(numeroAleatorio);
+      cambiarContador(carta.toString());
+      actualizarContTotal()
+      const urlCarta = obtenerUrlCarta(carta);
+      pintarCarta(urlCarta);
+      bloquearBoton(botonQueHabriaPasado, true);
+    })
+  };
