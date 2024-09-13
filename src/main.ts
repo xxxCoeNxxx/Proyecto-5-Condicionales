@@ -41,12 +41,12 @@ const obtenerUrlCarta = (carta: number) => {
   }
 };
 
-const pintarCarta = (urlCarta: string) => { // Muestra la carta si no hay error
+const pintarCarta = (urlCarta: string) => {
   const elementoImagen = document.getElementById("imgCarta");
   if (
-    elementoImagen !== null &&                   // SE PODRIA CREAR UNA FUNCION CON ESTO?     <---------
-    elementoImagen !== undefined &&              // 
-    elementoImagen instanceof HTMLImageElement   //
+    elementoImagen !== null &&
+    elementoImagen !== undefined &&
+    elementoImagen instanceof HTMLImageElement
   ) {
     elementoImagen.src = urlCarta;
   }
@@ -95,12 +95,10 @@ const comprobarPartida = () => {
   }
   
   if (puntosTotales === 7.5) {
-    console.log('Has ganado');
     pintarMejorPuntuacion(7.5);
-    pintarMensajeFinal("HAS GANADO!");
+    pintarMensajeFinal("Lo has clavado! Enhorabuena!");
   }
   if (puntosTotales > 7.5) {
-    console.log('Has perdido');
     pintarMensajeFinal("Has perdido... Prueba otra vez!");
   }
 };
@@ -110,13 +108,10 @@ const dameCarta = () => {
   const carta = obtenerNumeroCarta(numeroAleatorio);
   cambiarContador(carta.toString());
   actualizarContTotal()
-  consoleContadores();
   const urlCarta = obtenerUrlCarta(carta);
   pintarCarta(urlCarta);
   const puntosCarta = obtenerPuntosCarta(carta);
-  
   puntosSumados = sumarPuntos(puntosCarta);
- 
   actualizarPuntuacion(puntosSumados);
   pintarPuntuacion(puntosTotales);
   pintarRestantes(contTotal.toString())
@@ -195,12 +190,17 @@ if (
   botonMePlanto instanceof HTMLButtonElement
 ) {
   botonMePlanto.addEventListener("click", () => {
+   bloquearBoton(botonMePlanto, true);
+   if (
+    botonDameCarta !== null &&
+    botonDameCarta !== undefined &&
+    botonDameCarta instanceof HTMLButtonElement) {
+      bloquearBoton(botonDameCarta, true);
+    }
    pintarMejorPuntuacion(puntosTotales);
    actualizarPuntuacion(0);
    pintarPuntuacion(0);
-   console.log("puntos sumados",  puntosSumados);          // <----------- ERROR: LOS PUNTOS SUMADOS NO SE REINICIAN
    puntosSumados = 0;
-   console.log("puntos sumados", puntosSumados);
    comprobarPartida();
   })
 };
@@ -287,3 +287,26 @@ const cambiarContador = (nombreCont: string) => {
 const consoleContadores = () => {
   console.log(contAs, contDos, contTres, contCuatro, contCinco, contSeis, contSiete, contSota, contCaballo, contRey)
 };
+
+const pintarComentarios = () => {
+  const elementoComentarios = document.getElementById("mensajeComentarios")
+
+  if (
+    elementoComentarios !== null &&
+    elementoComentarios !== undefined &&
+    elementoComentarios instanceof HTMLSpanElement
+  ){
+      if (puntosSumados <= 4) {
+        elementoComentarios.textContent = "Has sido muy conservador";
+      }
+      if (puntosSumados > 4 && puntosSumados < 6) {
+        elementoComentarios.textContent = "Te ha entrado el canguelo eh?";
+      }
+      if (puntosSumados >= 6 && puntosSumados <= 7){
+        elementoComentarios.textContent = "Casi casi..."
+      }
+      if (puntosSumados	=== 7.5) {
+        elementoComentarios.textContent = "Lo has clavado! Enhorabuena!"
+      }
+  }
+}
