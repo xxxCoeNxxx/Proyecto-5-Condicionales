@@ -43,7 +43,6 @@ const obtenerUrlCarta = (carta: number) => {
 
 const pintarCarta = (urlCarta: string) => { // Muestra la carta si no hay error
   const elementoImagen = document.getElementById("imgCarta");
-
   if (
     elementoImagen !== null &&                   // SE PODRIA CREAR UNA FUNCION CON ESTO?     <---------
     elementoImagen !== undefined &&              // 
@@ -72,7 +71,6 @@ const actualizarPuntuacion = (puntosActuales: number) => {
 
 const pintarPuntuacion = (puntuacion: number) => {
   const elementoPuntuacion = document.getElementById("puntuacion");
-
   if (
     elementoPuntuacion !== null &&
     elementoPuntuacion !== undefined &&
@@ -116,7 +114,9 @@ const dameCarta = () => {
   const urlCarta = obtenerUrlCarta(carta);
   pintarCarta(urlCarta);
   const puntosCarta = obtenerPuntosCarta(carta);
+  
   puntosSumados = sumarPuntos(puntosCarta);
+ 
   actualizarPuntuacion(puntosSumados);
   pintarPuntuacion(puntosTotales);
   pintarRestantes(contTotal.toString())
@@ -198,9 +198,9 @@ if (
    pintarMejorPuntuacion(puntosTotales);
    actualizarPuntuacion(0);
    pintarPuntuacion(0);
-   console.log(puntosSumados);          // <----------- ERROR: LOS PUNTOS SUMADOS NO SE REINICIAN
+   console.log("puntos sumados",  puntosSumados);          // <----------- ERROR: LOS PUNTOS SUMADOS NO SE REINICIAN
    puntosSumados = 0;
-   console.log(puntosSumados);
+   console.log("puntos sumados", puntosSumados);
    comprobarPartida();
   })
 };
